@@ -1,0 +1,97 @@
+# program objectives : see notes / make notes / delete notes / exit program
+# newlines are added to improve readability in terminal
+
+user_exit = false
+user_notes = []
+
+# this code will be utilised several times, so we can make a function / method for it
+def list_user_notes(array)
+  puts "\n"
+  array.each_with_index do |iteration, index|
+    puts "#{index + 1}: #{iteration}" # index + 1 is because otherwise we start at count 0
+  end
+end
+
+puts "\nWelcome to My Notes. What would you like to do?"
+while user_exit == false
+
+  puts "\n(please choose from one of the following options):
+  Enter 1 to view existing notes.
+  Enter 2 to make a new note.
+  Enter 3 to modify an existing note
+  Enter 4 to delete a note.
+  Enter 5 to exit program\n\n"
+
+  user_choice = gets.chomp.to_i
+
+  case user_choice
+
+  when 5
+    user_exit = true # while loop no longer has condition to operate, so will finish
+
+  when 1 # add a new note
+
+    if user_notes.empty?
+      puts '*** there are currently no saved notes to view ***'
+    else
+      print "\n*** your current notes are: ***\n"
+      list_user_notes(user_notes)
+    end
+
+  when 2 # make a new note
+
+    print "\nPlease enter new note: \n\n"
+    user_notes.append(gets.chomp)
+
+  when 3 # modify a note
+
+    if user_notes.empty?
+      puts '*** there are currently no saved notes to modify ***'
+    else
+      puts "\nCAUTION: THIS WILL OVERWRITE YOUR ORIGINAL NOTE. Write Y [ENTER] to proceed or any other key [ENTER] to return to main menu\n"
+      escape_clause = gets.chomp
+      case escape_clause
+      when 'Y'
+        print "\n*** your current notes are: ***\n"
+        list_user_notes(user_notes)
+
+        puts "\nWhich note do you want to modify ? Please enter the number...\n\n"
+        index_location = gets.chomp.to_i - 1
+
+        puts "\nPlease write your new note.\n\n"
+        user_notes[index_location] = gets.chomp
+      end
+    end
+
+  when 4 # delete a note
+
+    if user_notes.empty?
+      puts '*** there are currently no saved notes to delete ***'
+    else
+      puts "\nCAUTION: THIS WILL DELETE YOUR ORIGINAL NOTE. Write Y [ENTER] to proceed or any other key [ENTER] to return to main menu\n"
+      escape_clause = gets.chomp
+      case escape_clause
+      when 'Y'
+        print "\n*** your current notes are: ***\n"
+        list_user_notes(user_notes)
+        puts "\nWhich note do you want to delete ? Please enter the number...\n\n"
+        index_location = gets.chomp.to_i - 1
+        user_notes.delete_at(index_location) # variable index_locator created for my readability
+        print "\n*** updated notes are now: ***\n"
+        list_user_notes(user_notes)
+      end
+    end
+
+  when 6
+    puts "\n******** If you want access to option 6, then you need the PAID version !! ********\n" # easter egg
+
+  when 7
+    puts "\n******** You're not ready for option 7 ********\n" # easter egg
+
+  else
+    puts "\n******** Please only enter a single number to choose from the options provided ********\n"
+
+  end
+end
+
+puts "\nThank you for using My Notes\n\n"
